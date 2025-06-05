@@ -37,6 +37,17 @@ func handleExecveEvent(message: UnsafePointer<es_message_t>) {
 }
 
 func main() {
+    print("here")
+    let args = CommandLine.arguments
+    
+    switch args[1] {
+    case "status": print("status")
+                   print(args)
+    default: break
+    }
+}
+
+func monitor() {
     var client: OpaquePointer?
     let result = es_new_client(&client) { client, message in
         handleExecveEvent(message: message)

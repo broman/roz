@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F1D73FC92DF1E64E006534B5 /* libEndpointSecurity.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D73FC72DF1E64E006534B5 /* libEndpointSecurity.tbd */; };
 		F1D73FCA2DF1E64E006534B5 /* libEndpointSecuritySystem.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D73FC82DF1E64E006534B5 /* libEndpointSecuritySystem.tbd */; };
+		F1D73FCD2DF1F223006534B5 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = F1D73FCC2DF1F21E006534B5 /* Makefile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,7 @@
 		F1D73FC72DF1E64E006534B5 /* libEndpointSecurity.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libEndpointSecurity.tbd; path = usr/lib/libEndpointSecurity.tbd; sourceTree = SDKROOT; };
 		F1D73FC82DF1E64E006534B5 /* libEndpointSecuritySystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libEndpointSecuritySystem.tbd; path = usr/lib/libEndpointSecuritySystem.tbd; sourceTree = SDKROOT; };
 		F1D73FCB2DF1EA38006534B5 /* roz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = roz.entitlements; sourceTree = "<group>"; };
+		F1D73FCC2DF1F21E006534B5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -54,6 +56,7 @@
 		F1D73FB32DF1E577006534B5 = {
 			isa = PBXGroup;
 			children = (
+				F1D73FCC2DF1F21E006534B5 /* Makefile */,
 				F1D73FCB2DF1EA38006534B5 /* roz.entitlements */,
 				F1D73FBE2DF1E577006534B5 /* roz */,
 				F1D73FC62DF1E64E006534B5 /* Frameworks */,
@@ -142,6 +145,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1D73FCD2DF1F223006534B5 /* Makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

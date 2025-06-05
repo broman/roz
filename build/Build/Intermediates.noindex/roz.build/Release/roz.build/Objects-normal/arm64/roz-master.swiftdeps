@@ -1,0 +1,6 @@
+version: "Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)"
+options: "5d6b4c98ec1b26ed148f9fae55a77c21a7897d0791e30c281a1588cd4bb4425c"
+build_start_time: [1749138301, 123368000]
+build_end_time: [1749138303, 219388000]
+inputs:
+  "/Users/rbroman/roz/roz/main.swift": [1749137752, 51893524]
