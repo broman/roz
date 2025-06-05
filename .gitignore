@@ -1,0 +1,23 @@
+# Ignore build artifacts
+build/
+release/
+
+# Xcode files
+DerivedData/
+*.xcworkspace
+*.xcuserstate
+*.xcuserdatad
+*.xcsettings
+*.xcodeproj/project.xcworkspace/
+
+# macOS metadata
+.DS_Store
+
+# Logs
+*.log
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+
