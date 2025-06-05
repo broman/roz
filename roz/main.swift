@@ -37,14 +37,7 @@ func handleExecveEvent(message: UnsafePointer<es_message_t>) {
 }
 
 func main() {
-    print("here")
-    let args = CommandLine.arguments
-    
-    switch args[1] {
-    case "status": print("status")
-                   print(args)
-    default: break
-    }
+    monitor()
 }
 
 func monitor() {
