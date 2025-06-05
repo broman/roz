@@ -13,10 +13,12 @@ func extractCString(from token: es_string_token_t) -> String {
 }
 
 func audit_token_to_pid(_ token: audit_token_t) -> pid_t {
+    // Linker doesn't like Darwin.Mach, reimplementing in Swift here
     return pid_t(token.val.5)
 }
 
 func handleExecveEvent(client: OpaquePointer, message: UnsafePointer<es_message_t>) {
+    // Capture the ES_EVENT_TYPE_NOTIFY_EXEC event only
     guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
     var execEvent = message.pointee.event.exec
     let pid = audit_token_to_pid(message.pointee.process.pointee.audit_token)
@@ -25,6 +27,7 @@ func handleExecveEvent(client: OpaquePointer, message: UnsafePointer<es_message_
     var args: [String] = []
 
     for i in 0..<argCount {
+        // Collect the arguments from argv
         let token = es_exec_arg(&execEvent, i)
         args.append(extractCString(from: token))
     }
