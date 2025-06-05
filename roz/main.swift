@@ -7,42 +7,39 @@
 
 import Foundation
 import EndpointSecurity
+import ArgumentParser
 
-func extractCString(from token: es_string_token_t) -> String {
-    return String(decoding: UnsafeRawBufferPointer(start: token.data, count: Int(token.length)), as: UTF8.self)
-}
+// MARK: - ArgumentParser setup
 
-func audit_token_to_pid(_ token: audit_token_t) -> pid_t {
-    // Linker doesn't like Darwin.Mach, reimplementing in Swift here
-    return pid_t(token.val.5)
-}
+struct Roz: ParsableCommand {
+    static var configuration = CommandConfiguration(
+        abstract: "A tool to monitor and inspect execve calls.",
+        subcommands: [Start.self, Status.self],
+        defaultSubcommand: Start.self
+    )
 
-func handleExecveEvent(message: UnsafePointer<es_message_t>) {
-    // Capture the ES_EVENT_TYPE_NOTIFY_EXEC event only
-    guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
-    var execEvent = message.pointee.event.exec
-    let pid = audit_token_to_pid(message.pointee.process.pointee.audit_token)
-    let executablePath = extractCString(from: execEvent.target.pointee.executable.pointee.path)
-    let argCount = es_exec_arg_count(&execEvent)
-    var args: [String] = []
+    struct Start: ParsableCommand {
+        static var configuration = CommandConfiguration(abstract: "Start monitoring execve calls")
 
-    for i in 0..<argCount {
-        // Collect the arguments from argv
-        let token = es_exec_arg(&execEvent, i)
-        args.append(extractCString(from: token))
+        func run() throws {
+            monitor()
+        }
     }
 
-    let fullCommand = ([executablePath] + args.dropFirst()).joined(separator: " ")
-    print("[\(pid)] execve: \(fullCommand)")
+    struct Status: ParsableCommand {
+        static var configuration = CommandConfiguration(abstract: "Roz status info")
+
+        func run() throws {
+            status()
+        }
+    }
 }
 
-func main() {
-    monitor()
-}
+// MARK: - program logic
 
 func monitor() {
     var client: OpaquePointer?
-    let result = es_new_client(&client) { client, message in
+    let result = es_new_client(&client) { _, message in
         handleExecveEvent(message: message)
     }
 
@@ -62,5 +59,37 @@ func monitor() {
     RunLoop.current.run()
 }
 
-main()
+func status() {
+    print("Status: (placeholder) monitoring status not yet implemented.")
+}
+
+func extractCString(from token: es_string_token_t) -> String {
+    String(decoding: UnsafeRawBufferPointer(start: token.data, count: Int(token.length)), as: UTF8.self)
+}
+
+func audit_token_to_pid(_ token: audit_token_t) -> pid_t {
+    pid_t(token.val.5)
+}
+
+func handleExecveEvent(message: UnsafePointer<es_message_t>) {
+    guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
+
+    var execEvent = message.pointee.event.exec
+    let pid = audit_token_to_pid(message.pointee.process.pointee.audit_token)
+    let executablePath = extractCString(from: execEvent.target.pointee.executable.pointee.path)
+
+    var args: [String] = []
+    let argCount = es_exec_arg_count(&execEvent)
+    for i in 0..<argCount {
+        let token = es_exec_arg(&execEvent, i)
+        args.append(extractCString(from: token))
+    }
+
+    let fullCommand = ([executablePath] + args.dropFirst()).joined(separator: " ")
+    print("[\(pid)] \(fullCommand)")
+}
+
+// MARK: - entry point
+
+Roz.main()
 
