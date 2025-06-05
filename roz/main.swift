@@ -55,7 +55,6 @@ func monitor() {
         return
     }
 
-    print("Monitoring execve with arguments...")
     RunLoop.current.run()
 }
 
@@ -67,7 +66,7 @@ func extractCString(from token: es_string_token_t) -> String {
     String(decoding: UnsafeRawBufferPointer(start: token.data, count: Int(token.length)), as: UTF8.self)
 }
 
-func audit_token_to_pid(_ token: audit_token_t) -> pid_t {
+func convertToPid(_ token: audit_token_t) -> pid_t {
     pid_t(token.val.5)
 }
 
@@ -75,7 +74,7 @@ func handleExecveEvent(message: UnsafePointer<es_message_t>) {
     guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
 
     var execEvent = message.pointee.event.exec
-    let pid = audit_token_to_pid(message.pointee.process.pointee.audit_token)
+    let pid = convertToPid(message.pointee.process.pointee.audit_token)
     let executablePath = extractCString(from: execEvent.target.pointee.executable.pointee.path)
 
     var args: [String] = []
