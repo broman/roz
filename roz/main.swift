@@ -17,7 +17,7 @@ func audit_token_to_pid(_ token: audit_token_t) -> pid_t {
     return pid_t(token.val.5)
 }
 
-func handleExecveEvent(client: OpaquePointer, message: UnsafePointer<es_message_t>) {
+func handleExecveEvent(message: UnsafePointer<es_message_t>) {
     // Capture the ES_EVENT_TYPE_NOTIFY_EXEC event only
     guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
     var execEvent = message.pointee.event.exec
@@ -39,7 +39,7 @@ func handleExecveEvent(client: OpaquePointer, message: UnsafePointer<es_message_
 func main() {
     var client: OpaquePointer?
     let result = es_new_client(&client) { client, message in
-        handleExecveEvent(client: client, message: message)
+        handleExecveEvent(message: message)
     }
 
     guard result == ES_NEW_CLIENT_RESULT_SUCCESS, let client = client else {
