@@ -27,6 +27,7 @@
 		F1D73FBC2DF1E577006534B5 /* roz */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = roz; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1D73FC72DF1E64E006534B5 /* libEndpointSecurity.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libEndpointSecurity.tbd; path = usr/lib/libEndpointSecurity.tbd; sourceTree = SDKROOT; };
 		F1D73FC82DF1E64E006534B5 /* libEndpointSecuritySystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libEndpointSecuritySystem.tbd; path = usr/lib/libEndpointSecuritySystem.tbd; sourceTree = SDKROOT; };
+		F1D73FCB2DF1EA38006534B5 /* roz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = roz.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -53,6 +54,7 @@
 		F1D73FB32DF1E577006534B5 = {
 			isa = PBXGroup;
 			children = (
+				F1D73FCB2DF1EA38006534B5 /* roz.entitlements */,
 				F1D73FBE2DF1E577006534B5 /* roz */,
 				F1D73FC62DF1E64E006534B5 /* Frameworks */,
 				F1D73FBD2DF1E577006534B5 /* Products */,
@@ -269,6 +271,7 @@
 		F1D73FC42DF1E577006534B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = roz.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X5Y6SMH2EJ;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -280,6 +283,7 @@
 		F1D73FC52DF1E577006534B5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = roz.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X5Y6SMH2EJ;
 				ENABLE_HARDENED_RUNTIME = YES;
