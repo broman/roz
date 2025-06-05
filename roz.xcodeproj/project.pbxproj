@@ -30,6 +30,8 @@
 		F1D73FC82DF1E64E006534B5 /* libEndpointSecuritySystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libEndpointSecuritySystem.tbd; path = usr/lib/libEndpointSecuritySystem.tbd; sourceTree = SDKROOT; };
 		F1D73FCB2DF1EA38006534B5 /* roz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = roz.entitlements; sourceTree = "<group>"; };
 		F1D73FCC2DF1F21E006534B5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		F1D73FCE2DF1F49A006534B5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F1D73FCF2DF1F4C7006534B5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -56,6 +58,8 @@
 		F1D73FB32DF1E577006534B5 = {
 			isa = PBXGroup;
 			children = (
+				F1D73FCF2DF1F4C7006534B5 /* .gitignore */,
+				F1D73FCE2DF1F49A006534B5 /* README.md */,
 				F1D73FCC2DF1F21E006534B5 /* Makefile */,
 				F1D73FCB2DF1EA38006534B5 /* roz.entitlements */,
 				F1D73FBE2DF1E577006534B5 /* roz */,
