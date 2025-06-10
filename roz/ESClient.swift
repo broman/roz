@@ -16,11 +16,8 @@ final class ESClient {
             guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
 
             var execEvent = message.pointee.event.exec
-            let pid = pid_t(message.pointee.process.pointee.audit_token.val.5)
-            let path = String(decoding: UnsafeRawBufferPointer(
-                start: execEvent.target.pointee.executable.pointee.path.data,
-                count: Int(execEvent.target.pointee.executable.pointee.path.length)
-            ), as: UTF8.self)
+            let pid = Utility.convertToPid(message.pointee.process.pointee.audit_token)
+            let path = Utility.extractCString(from: execEvent.target.pointee.executable.pointee.path)
 
             var args: [String] = []
             let count = es_exec_arg_count(&execEvent)

@@ -10,7 +10,6 @@
 		F10AD7522DF7F4D500CDC2C1 /* libEndpointSecurity.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D73FC72DF1E64E006534B5 /* libEndpointSecurity.tbd */; };
 		F10AD7532DF7F4D500CDC2C1 /* libEndpointSecuritySystem.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D73FC82DF1E64E006534B5 /* libEndpointSecuritySystem.tbd */; };
 		F12922A22DF22DFD00E92670 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = F12922A12DF22DFD00E92670 /* ArgumentParser */; };
-		F1D73FCD2DF1F223006534B5 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = F1D73FCC2DF1F21E006534B5 /* Makefile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -155,7 +154,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1D73FCD2DF1F223006534B5 /* Makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
