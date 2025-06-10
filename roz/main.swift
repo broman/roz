@@ -14,7 +14,7 @@ import ArgumentParser
 struct Roz: ParsableCommand {
     static var configuration = CommandConfiguration(
         abstract: "A tool to monitor and inspect execve calls.",
-        subcommands: [Start.self, Status.self],
+        subcommands: [Start.self, Restart.self, Status.self],
         defaultSubcommand: Start.self
     )
 
@@ -23,6 +23,14 @@ struct Roz: ParsableCommand {
 
         func run() throws {
             monitor()
+        }
+    }
+    
+    struct Restart: ParsableCommand {
+        static var configuration = CommandConfiguration(abstract: "Restart the roz process")
+        
+        func run() throws {
+            print("NYI")
         }
     }
 
@@ -59,7 +67,7 @@ func monitor() {
 }
 
 func status() {
-    print("Status: (placeholder) monitoring status not yet implemented.")
+    print("Status goes here")
 }
 
 func extractCString(from token: es_string_token_t) -> String {
@@ -71,12 +79,14 @@ func convertToPid(_ token: audit_token_t) -> pid_t {
 }
 
 func handleExecveEvent(message: UnsafePointer<es_message_t>) {
+    // only handling execve calls
     guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
 
     var execEvent = message.pointee.event.exec
     let pid = convertToPid(message.pointee.process.pointee.audit_token)
     let executablePath = extractCString(from: execEvent.target.pointee.executable.pointee.path)
-
+    
+    // collect args
     var args: [String] = []
     let argCount = es_exec_arg_count(&execEvent)
     for i in 0..<argCount {

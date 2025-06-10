@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F10AD7512DF7F33500CDC2C1 /* ESKit in Frameworks */ = {isa = PBXBuildFile; productRef = F10AD7502DF7F33500CDC2C1 /* ESKit */; };
 		F12922A22DF22DFD00E92670 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = F12922A12DF22DFD00E92670 /* ArgumentParser */; };
 		F1D73FC92DF1E64E006534B5 /* libEndpointSecurity.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D73FC72DF1E64E006534B5 /* libEndpointSecurity.tbd */; };
 		F1D73FCA2DF1E64E006534B5 /* libEndpointSecuritySystem.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D73FC82DF1E64E006534B5 /* libEndpointSecuritySystem.tbd */; };
@@ -49,6 +50,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F12922A22DF22DFD00E92670 /* ArgumentParser in Frameworks */,
+				F10AD7512DF7F33500CDC2C1 /* ESKit in Frameworks */,
 				F1D73FC92DF1E64E006534B5 /* libEndpointSecurity.tbd in Frameworks */,
 				F1D73FCA2DF1E64E006534B5 /* libEndpointSecuritySystem.tbd in Frameworks */,
 			);
@@ -108,6 +110,7 @@
 			name = roz;
 			packageProductDependencies = (
 				F12922A12DF22DFD00E92670 /* ArgumentParser */,
+				F10AD7502DF7F33500CDC2C1 /* ESKit */,
 			);
 			productName = roz;
 			productReference = F1D73FBC2DF1E577006534B5 /* roz */;
@@ -139,6 +142,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F12922A02DF22DFD00E92670 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+				F10AD74F2DF7F33500CDC2C1 /* XCLocalSwiftPackageReference "../ESKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1D73FBD2DF1E577006534B5 /* Products */;
@@ -333,6 +337,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		F10AD74F2DF7F33500CDC2C1 /* XCLocalSwiftPackageReference "../ESKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../ESKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		F12922A02DF22DFD00E92670 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -345,6 +356,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F10AD7502DF7F33500CDC2C1 /* ESKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ESKit;
+		};
 		F12922A12DF22DFD00E92670 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F12922A02DF22DFD00E92670 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
