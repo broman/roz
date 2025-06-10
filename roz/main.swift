@@ -6,10 +6,7 @@
 //
 
 import Foundation
-import EndpointSecurity
 import ArgumentParser
-
-// MARK: - ArgumentParser setup
 
 struct Roz: ParsableCommand {
     static var configuration = CommandConfiguration(
@@ -22,13 +19,24 @@ struct Roz: ParsableCommand {
         static var configuration = CommandConfiguration(abstract: "Start monitoring execve calls")
 
         func run() throws {
-            monitor()
+            guard let client = ESClient() else {
+                print("Failed to create ES client")
+                return
+            }
+
+            guard client.subscribeExec() else {
+                print("Failed to subscribe to exec events")
+                return
+            }
+
+            print("Monitoring exec calls...")
+            client.run()
         }
     }
-    
+
     struct Restart: ParsableCommand {
         static var configuration = CommandConfiguration(abstract: "Restart the roz process")
-        
+
         func run() throws {
             print("NYI")
         }
@@ -38,67 +46,9 @@ struct Roz: ParsableCommand {
         static var configuration = CommandConfiguration(abstract: "Roz status info")
 
         func run() throws {
-            status()
+            print("Status goes here")
         }
     }
 }
 
-// MARK: - program logic
-
-func monitor() {
-    var client: OpaquePointer?
-    let result = es_new_client(&client) { _, message in
-        handleExecveEvent(message: message)
-    }
-
-    guard result == ES_NEW_CLIENT_RESULT_SUCCESS, let client = client else {
-        print("Failed to create ES client")
-        return
-    }
-
-    let events: [es_event_type_t] = [ES_EVENT_TYPE_NOTIFY_EXEC]
-    guard es_subscribe(client, events, UInt32(events.count)) == ES_RETURN_SUCCESS else {
-        print("Failed to subscribe to exec events")
-        es_delete_client(client)
-        return
-    }
-
-    RunLoop.current.run()
-}
-
-func status() {
-    print("Status goes here")
-}
-
-func extractCString(from token: es_string_token_t) -> String {
-    String(decoding: UnsafeRawBufferPointer(start: token.data, count: Int(token.length)), as: UTF8.self)
-}
-
-func convertToPid(_ token: audit_token_t) -> pid_t {
-    pid_t(token.val.5)
-}
-
-func handleExecveEvent(message: UnsafePointer<es_message_t>) {
-    // only handling execve calls
-    guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
-
-    var execEvent = message.pointee.event.exec
-    let pid = convertToPid(message.pointee.process.pointee.audit_token)
-    let executablePath = extractCString(from: execEvent.target.pointee.executable.pointee.path)
-    
-    // collect args
-    var args: [String] = []
-    let argCount = es_exec_arg_count(&execEvent)
-    for i in 0..<argCount {
-        let token = es_exec_arg(&execEvent, i)
-        args.append(extractCString(from: token))
-    }
-
-    let fullCommand = ([executablePath] + args.dropFirst()).joined(separator: " ")
-    print("[\(pid)] \(fullCommand)")
-}
-
-// MARK: - entry point
-
 Roz.main()
-
