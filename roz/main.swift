@@ -11,7 +11,7 @@ import ArgumentParser
 struct Roz: ParsableCommand {
     static var configuration = CommandConfiguration(
         abstract: "A tool to monitor and inspect execve calls.",
-        subcommands: [Start.self, Restart.self, Status.self],
+		subcommands: [Start.self, Restart.self, Status.self, Test.self],
         defaultSubcommand: Start.self
     )
 
@@ -19,7 +19,7 @@ struct Roz: ParsableCommand {
         static var configuration = CommandConfiguration(abstract: "Start monitoring execve calls")
 
         func run() throws {
-            guard let client = ESClient() else {
+            guard let client = RozClient() else {
                 print("Failed to create ES client")
                 return
             }
@@ -49,6 +49,18 @@ struct Roz: ParsableCommand {
             print("Status goes here")
         }
     }
+	
+	struct Test: ParsableCommand {
+		static var configuration = CommandConfiguration(abstract: "Test")
+
+		func run() throws {
+			do {
+				let client = try ESClient(handlers: [{_, _ in return 0}])
+			} catch let e as NewClientError {
+				print("\(e)")
+			}
+		}
+	}
 }
 
 Roz.main()
