@@ -60,8 +60,6 @@ struct Roz: ParsableCommand {
 			} catch let e as NewClientError {
 				print("Could not create client: \(e.localizedDescription)")
 			}
-			print(client!.getClient()!)
-			print("Client created")
 		}
 	}
 }

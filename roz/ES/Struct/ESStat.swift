@@ -8,7 +8,7 @@
 import Foundation
 
 /// Represents a `stat(2)` file statistics struct from C
-struct Stat {
+struct ESStat {
 	/// Device ID of the device containing the file
 	let deviceID: UInt32
 	/// Inode number
@@ -50,10 +50,10 @@ struct Stat {
 		self.userID = stat.st_uid
 		self.groupID = stat.st_gid
 		self.deviceType = UInt32(stat.st_rdev)
-		self.accessTime = Utility.dateFromTimeval(timeval(tv_sec: stat.st_atimespec.tv_sec, tv_usec: __darwin_suseconds_t(stat.st_atimespec.tv_nsec / 1000)))
-		self.modificationTime = Utility.dateFromTimeval(timeval(tv_sec: stat.st_mtimespec.tv_sec, tv_usec: __darwin_suseconds_t(stat.st_mtimespec.tv_nsec / 1000)))
-		self.statusChangeTime = Utility.dateFromTimeval(timeval(tv_sec: stat.st_ctimespec.tv_sec, tv_usec: __darwin_suseconds_t(stat.st_ctimespec.tv_nsec / 1000)))
-		self.birthTime = Utility.dateFromTimeval(timeval(tv_sec: stat.st_birthtimespec.tv_sec, tv_usec: __darwin_suseconds_t(stat.st_birthtimespec.tv_nsec / 1000)))
+		self.accessTime = Utility.dateFromTimespec(stat.st_atimespec)
+		self.modificationTime = Utility.dateFromTimespec(stat.st_mtimespec)
+		self.statusChangeTime = Utility.dateFromTimespec(stat.st_ctimespec)
+		self.birthTime = Utility.dateFromTimespec(stat.st_birthtimespec)
 		self.size = stat.st_size
 		self.blocks = stat.st_blocks
 		self.blockSize = stat.st_blksize
@@ -61,3 +61,4 @@ struct Stat {
 		self.gen = stat.st_gen
 	}
 }
+

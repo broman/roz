@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import EndpointSecurity
+
+/// Represents a call to `execve()`.
+class ExecEvent: ESEvent {
+	init(event: es_message_t) {
+		
+	}
+}

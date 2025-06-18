@@ -12,11 +12,11 @@ import EndpointSecurity
 struct File {
 	var path: String
 	var truncated: Bool
-	var stat: Stat
+	var stat: ESStat
 	
 	init(_ file: es_file_t) {
 		path = Utility.extractCString(from: file.path)
 		truncated = file.path_truncated
-		stat = Stat(file.stat)
+		stat = ESStat(file.stat)
 	}
 }

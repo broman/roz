@@ -15,7 +15,7 @@ enum NewClientError: Error, LocalizedError {
     case invalidArgument
 	/// The caller isn't properly entitled to connect to Endpoint Security.
     case notEntitled
-	/// The caller isn’t permitted to connect to Endpoint Security. This can also be thrown if the caller is not root.
+	/// The caller isn’t permitted to connect to Endpoint Security.
     case notPermitted
 	/// The caller isn’t running as root.
     case notRoot
@@ -31,7 +31,7 @@ enum NewClientError: Error, LocalizedError {
 		case .notEntitled:
 			return "The caller isn’t properly entitled to connect to Endpoint Security."
 		case .notPermitted:
-			return "The caller isn’t permitted to connect to Endpoint Security (are you root?)."
+			return "The caller isn’t permitted to connect to Endpoint Security."
 		case .notRoot:
 			return "The caller isn’t running as root."
 		case .tooManyClients:

@@ -9,8 +9,6 @@ import Foundation
 import EndpointSecurity
 
 /// Represents an Endpoint Security client.
-///
-///
 class ESClient {
     private var client: OpaquePointer?
     
@@ -18,6 +16,8 @@ class ESClient {
 	/// - Throws: `NewClientError` if creating the client fails.
     init() throws {
         try createClient()
+		subscribe()
+		run()
     }
 
 	func createClient() throws -> Void {
@@ -34,7 +34,7 @@ class ESClient {
 			case ES_NEW_CLIENT_RESULT_ERR_NOT_PERMITTED:
 				throw NewClientError.notPermitted
 			case ES_NEW_CLIENT_RESULT_ERR_NOT_PRIVILEGED:
-				throw NewClientError.notPermitted
+				throw NewClientError.notRoot
 			case ES_NEW_CLIENT_RESULT_ERR_INVALID_ARGUMENT:
 				throw NewClientError.invalidArgument
 			case ES_NEW_CLIENT_RESULT_ERR_TOO_MANY_CLIENTS:
@@ -44,19 +44,26 @@ class ESClient {
 		}
 	}
     
-    func handleEvent(message: UnsafePointer<es_message_t>) {
-		let eventType = ESEventType.from(message.pointee.event_type)
+    func handleEvent(message: UnsafePointer<es_message_t>) -> Void {
+		let eventType = ESEventType.from(message.pointee.event_type)!
+		let msg = ESMessage(message.pointee)
 		
+		switch(eventType) {
+		case ESEventType.notifyExec: print("Exec event!!");
+		default: break;
+		}
     }
+	
+	func subscribe() -> Void {
+		guard let client = client else { return }
+		es_subscribe(client, [ES_EVENT_TYPE_NOTIFY_EXEC], 1)
+	}
 	
 	func getClient() -> OpaquePointer? {
 		return client
 	}
+	
+	func run() {
+		RunLoop.current.run()
+	}
 }
-
-/**
- 
- client = es_new_client(<#T##client: UnsafeMutablePointer<OpaquePointer?>##UnsafeMutablePointer<OpaquePointer?>#>, { <#OpaquePointer#>, <#UnsafePointer<es_message_t>#> in
-     <#code#>
- })
- */

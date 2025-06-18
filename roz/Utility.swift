@@ -16,4 +16,16 @@ final class Utility {
     static func convertToPid(_ token: audit_token_t) -> pid_t {
         pid_t(token.val.5)
     }
+	
+	static func dateFromTimeval(_ cTimeval: timeval) -> Date {
+		let seconds = TimeInterval(cTimeval.tv_sec)
+		let microseconds = TimeInterval(cTimeval.tv_usec) / 1_000_000
+		return Date(timeIntervalSince1970: seconds + microseconds)
+	}
+	
+	static func dateFromTimespec(_ ts: timespec) -> Date {
+		let seconds = TimeInterval(ts.tv_sec)
+		let nanoseconds = TimeInterval(ts.tv_nsec) / 1_000_000_000
+		return Date(timeIntervalSince1970: seconds + nanoseconds)
+	}
 }

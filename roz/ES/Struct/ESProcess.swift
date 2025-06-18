@@ -9,7 +9,7 @@ import Foundation
 import EndpointSecurity
 
 /// Represents a macOS process.
-struct Process {
+struct ESProcess {
 	/// Whether the process is an Endpoint Security client
 	var isESClient: Bool?
 	/// Whether the process is a platform binary
