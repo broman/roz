@@ -6,11 +6,12 @@
 //
 
 import Foundation
-
+import EndpointSecurity
 
 /// Represents a message from Endpoint Security.
 /// https://developer.apple.com/documentation/endpointsecurity/es_message_t 
-class ESMessage {
-	
-	
+struct ESMessage {
+	init(_ msg: es_message_t) {
+		
+	}
 }

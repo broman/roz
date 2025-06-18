@@ -1,5 +1,5 @@
 //
-//  MessageType.swift
+//  ESMessageType.swift
 //  roz
 //
 //  Created by Broman on 6/16/25.

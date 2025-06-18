@@ -54,11 +54,14 @@ struct Roz: ParsableCommand {
 		static var configuration = CommandConfiguration(abstract: "Test")
 
 		func run() throws {
+			var client: ESClient?
 			do {
-				let client = try ESClient(handlers: [{_, _ in return 0}])
+				client = try ESClient()
 			} catch let e as NewClientError {
-				print("\(e)")
+				print("Could not create client: \(e.localizedDescription)")
 			}
+			print(client!.getClient()!)
+			print("Client created")
 		}
 	}
 }
