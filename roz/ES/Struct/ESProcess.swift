@@ -19,7 +19,7 @@ struct ESProcess {
 	/// The time the process was called
 	var startTime: Date
 	
-	init(process: es_process_t) {
+	init(_ process: es_process_t) {
 		isESClient = process.is_es_client
 		isPlatformBinary = process.is_platform_binary
 		executable = File(process.executable.pointee)

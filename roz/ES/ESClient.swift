@@ -12,8 +12,8 @@ import EndpointSecurity
 class ESClient {
     private var client: OpaquePointer?
     
-	/// Try to create a new Endpoint Security client
-	/// - Throws: `NewClientError` if creating the client fails.
+	/// Try to create a new Endpoint Security client.
+	/// - Throws: ``NewClientError`` if creating the client fails.
     init() throws {
         try createClient()
 		subscribe()
@@ -26,30 +26,23 @@ class ESClient {
 		}
 		
 		if(result != ES_NEW_CLIENT_RESULT_SUCCESS) {
-			switch(result) {
-			case ES_NEW_CLIENT_RESULT_ERR_INTERNAL:
-				throw NewClientError.internalError
-			case ES_NEW_CLIENT_RESULT_ERR_NOT_ENTITLED:
-				throw NewClientError.notEntitled
-			case ES_NEW_CLIENT_RESULT_ERR_NOT_PERMITTED:
-				throw NewClientError.notPermitted
-			case ES_NEW_CLIENT_RESULT_ERR_NOT_PRIVILEGED:
-				throw NewClientError.notRoot
-			case ES_NEW_CLIENT_RESULT_ERR_INVALID_ARGUMENT:
-				throw NewClientError.invalidArgument
-			case ES_NEW_CLIENT_RESULT_ERR_TOO_MANY_CLIENTS:
-				throw NewClientError.tooManyClients
-			default: break;
-			}
+			throw NewClientError(from: result)!
 		}
 	}
     
     func handleEvent(message: UnsafePointer<es_message_t>) -> Void {
 		let eventType = ESEventType.from(message.pointee.event_type)!
-		let msg = ESMessage(message.pointee)
-		
+		var msg: ESMessage
+		do {
+			msg = try ESMessage.from(message.pointee)
+			print(msg.deadline.ISO8601Format())
+		} catch let e as MessageError {
+
+		} catch {
+			
+		}
 		switch(eventType) {
-		case ESEventType.notifyExec: print("Exec event!!");
+		case .notify(.exec): print("Exec event!!");
 		default: break;
 		}
     }

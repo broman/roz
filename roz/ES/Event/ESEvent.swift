@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import EndpointSecurity
 
-class ESEvent {
-	
+protocol ESEvent {
+	init?(eventType: es_event_type_t, event: es_events_t) throws
 }
