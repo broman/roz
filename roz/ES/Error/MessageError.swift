@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Thrown when creating a new ESMessage fails
+/// Thrown when creating a new ``ESMessage`` fails.
 enum MessageError: Error, LocalizedError {
 	/// The event type and event do not match.
 	case typeMismatch

@@ -9,10 +9,10 @@ import Foundation
 import EndpointSecurity
 
 /// Represents a file.
-struct File {
-	var path: String
-	var truncated: Bool
-	var stat: ESStat
+struct ESFile {
+	private(set) var path: String
+	private(set) var truncated: Bool
+	private(set) var stat: ESStat
 	
 	init(_ file: es_file_t) {
 		path = Utility.extractCString(from: file.path)

@@ -11,6 +11,8 @@ import EndpointSecurity
 /// Represents an Endpoint Security client.
 class ESClient {
     private var client: OpaquePointer?
+	private var authHandlers: [ESEventType.Auth : (ESMessage) -> Bool] = [:]
+	private var notifyHandlers: [ESEventType.Notify : (ESMessage) -> Void] = [:]
     
 	/// Try to create a new Endpoint Security client.
 	/// - Throws: ``NewClientError`` if creating the client fails.
@@ -30,26 +32,51 @@ class ESClient {
 		}
 	}
     
-    func handleEvent(message: UnsafePointer<es_message_t>) -> Void {
+    func handleEvent(message: UnsafePointer<es_message_t>) -> Bool? {
 		let eventType = ESEventType.from(message.pointee.event_type)!
 		var msg: ESMessage
 		do {
 			msg = try ESMessage.from(message.pointee)
 			print(msg.deadline.ISO8601Format())
 		} catch let e as MessageError {
-
-		} catch {
-			
+			print(e)
+			return nil
+		} catch let e {
+			print(e.localizedDescription)
+			return nil
 		}
 		switch(eventType) {
-		case .notify(.exec): print("Exec event!!");
-		default: break;
+		case .notify(let type):
+			if let hnd = notifyHandlers[type] {
+				hnd(msg)
+			}
+			break
+		case .auth(let type):
+			if let hnd = authHandlers[type] {
+				return hnd(msg)
+			}
+			break
 		}
+		return nil
     }
 	
 	func subscribe() -> Void {
 		guard let client = client else { return }
 		es_subscribe(client, [ES_EVENT_TYPE_NOTIFY_EXEC], 1)
+	}
+	
+	func subscribe(eventType: ESEventType.Auth, handler: @escaping (ESMessage) -> Bool) throws -> Void {
+		if authHandlers.keys.contains(eventType) {
+			throw SubscribeError.alreadyRegistered
+		}
+		authHandlers[eventType] = handler
+	}
+	
+	func subscribe(eventType: ESEventType.Notify, handler: @escaping (ESMessage) -> Void) throws -> Void {
+		if notifyHandlers.keys.contains(eventType) {
+			throw SubscribeError.alreadyRegistered
+		}
+		notifyHandlers[eventType] = handler
 	}
 	
 	func getClient() -> OpaquePointer? {
