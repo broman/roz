@@ -10,8 +10,6 @@ import EndpointSecurity
 
 /// Represents a call to `execve()`.
 struct ExecEvent: ESEvent {
-	/// The event type
-	private(set) var type: ESEventType
 	/// A file representing the CWD
 	private(set) var cwd: ESFile
 	/// The target process being executed
@@ -19,10 +17,7 @@ struct ExecEvent: ESEvent {
 	/// The arguments passed to the associated process
 	private(set) var args: [String]
 	
-	init?(eventType: es_event_type_t, event: es_events_t) throws {
-		type = ESEventType.from(eventType)!
-		guard case .notify(.exec) = type else { throw MessageError.typeMismatch }
-		
+	init?(event: es_events_t) throws {		
 		let event: es_event_exec_t = event.exec
 		target = ESProcess(event.target.pointee)
 		

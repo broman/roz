@@ -32,7 +32,7 @@ public enum ESEventType {
 		case setacl, setextattr, setflags, setmode, setowner, settime
 		case signal, truncate, uipcBind, uipcConnect, unlink, utimes
 
-		public var esEventType: es_event_type_t {
+		public var cEnum: es_event_type_t {
 			switch self {
 			case .chdir: return ES_EVENT_TYPE_AUTH_CHDIR
 			case .chroot: return ES_EVENT_TYPE_AUTH_CHROOT
@@ -108,7 +108,7 @@ public enum ESEventType {
 		case trace, truncate, uipcBind, uipcConnect, unlink
 		case write, xpcConnect, xpMalwareDetected, xpMalwareRemediated
 
-		public var esEventType: es_event_type_t {
+		public var cEnum: es_event_type_t {
 			switch self {
 			case .access: return ES_EVENT_TYPE_NOTIFY_ACCESS
 			case .authentication: return ES_EVENT_TYPE_NOTIFY_AUTHENTICATION
@@ -212,10 +212,10 @@ public enum ESEventType {
 
 	/// Returns ``ESEventType`` from the C API's `es_event_type_t`.
 	public static func from(_ type: es_event_type_t) -> ESEventType? {
-		if let auth = Auth.allCases.first(where: { $0.esEventType == type }) {
+		if let auth = Auth.allCases.first(where: { $0.cEnum == type }) {
 			return .auth(auth)
 		}
-		if let notify = Notify.allCases.first(where: { $0.esEventType == type }) {
+		if let notify = Notify.allCases.first(where: { $0.cEnum == type }) {
 			return .notify(notify)
 		}
 		return nil
@@ -224,8 +224,8 @@ public enum ESEventType {
 	/// Returns the C API representation of the event.
 	public var asRaw: es_event_type_t {
 		switch self {
-		case .auth(let a): return a.esEventType
-		case .notify(let n): return n.esEventType
+		case .auth(let a): return a.cEnum
+		case .notify(let n): return n.cEnum
 		}
 	}
 }

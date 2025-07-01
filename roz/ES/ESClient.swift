@@ -70,6 +70,9 @@ class ESClient {
 			throw SubscribeError.alreadyRegistered
 		}
 		authHandlers[eventType] = handler
+		guard let client = client else { return }
+		es_subscribe(client, [eventType.cEnum], 1)
+		
 	}
 	
 	func subscribe(eventType: ESEventType.Notify, handler: @escaping (ESMessage) -> Void) throws -> Void {

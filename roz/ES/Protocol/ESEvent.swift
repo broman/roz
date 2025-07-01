@@ -9,5 +9,5 @@ import Foundation
 import EndpointSecurity
 
 protocol ESEvent {
-	init?(eventType: es_event_type_t, event: es_events_t) throws
+	init?(event: es_events_t) throws
 }

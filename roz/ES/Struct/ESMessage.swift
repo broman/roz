@@ -13,10 +13,10 @@ import EndpointSecurity
 /// Messages can either be Auth events or Notify events.
 /// Clients that subscribe to Auth events must return `Bool` by their
 /// handling functions to indicate whether the action is authorized to proceed.
-/// Handling functions must return `Bool` before the time indicated by `deadline`
+/// Handling functions must return `Bool` before the time indicated by ``deadline``
 /// or the client process may be terminated. Additionally, clients that frequently
-/// miss deadlines may be prevented from being created, and `NewClientError.notPermitted` may
-/// be thrown in response. 
+/// miss deadlines may be prevented by the Endpoint Security Subsystem
+/// from being created, indicated by ``NewClientError/notPermitted`` being thrown.
 ///
 /// Notify events are triggered after the action has occured.
 /// https://developer.apple.com/documentation/endpointsecurity/es_message_t
@@ -43,7 +43,7 @@ struct ESMessage {
 		let type = ESEventType.from(eventType)
 		do {
 			switch(type) {
-			case .notify(.exec): return try ExecEvent(eventType: eventType, event: event)!
+			case .notify(.exec): return try ExecEvent(event: event)!
 			default: return nil
 			}
 		}

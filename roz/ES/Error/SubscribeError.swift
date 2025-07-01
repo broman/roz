@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Thrown when subscribing to an event fails via ``ESEvent.subscribe()``
+/// Thrown when subscribing to an event fails via ``ESClient/subscribe()``
 enum SubscribeError: Error, LocalizedError {
 	/// The ``ESEventType`` passed is already registered.
 	case alreadyRegistered
