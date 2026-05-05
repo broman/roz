@@ -19,7 +19,7 @@ struct Roz: ParsableCommand {
         static var configuration = CommandConfiguration(abstract: "Start monitoring execve calls")
 
         func run() throws {
-            guard let client = RozClient() else {
+            guard let client = try RozClient() else {
                 print("Failed to create ES client")
                 return
             }

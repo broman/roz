@@ -12,7 +12,7 @@ import Darwin
 final class RozClient {
     private var client: OpaquePointer?
 
-    init?() {
+    init?() throws {
         let result = es_new_client(&client) { _, message in
             guard message.pointee.event_type == ES_EVENT_TYPE_NOTIFY_EXEC else { return }
 
@@ -45,7 +45,7 @@ final class RozClient {
         }
 
         guard result == ES_NEW_CLIENT_RESULT_SUCCESS, client != nil else {
-            return nil
+            throw NewClientError(from: result)!
         }
     }
 

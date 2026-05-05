@@ -24,7 +24,10 @@ class ESClient {
 
 	func createClient() throws -> Void {
 		let result: es_new_client_result_t = es_new_client(&client) {_, message in
-			self.handleEvent(message: message)
+			let _res = self.handleEvent(message: message)
+            if(!_res!) {
+                print("handleevent error?")
+            }
 		}
 		
 		if(result != ES_NEW_CLIENT_RESULT_SUCCESS) {

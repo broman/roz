@@ -9,6 +9,7 @@ import Foundation
 import EndpointSecurity
 
 final class Utility {
+    /// Converts from internal ES string token to Swift string representation
     static func extractCString(from token: es_string_token_t) -> String {
         String(decoding: UnsafeRawBufferPointer(start: token.data, count: Int(token.length)), as: UTF8.self)
     }

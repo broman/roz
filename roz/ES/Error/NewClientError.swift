@@ -27,7 +27,7 @@ enum NewClientError: Error, LocalizedError {
 		default: return nil
 		}
 	}
-	
+
 	/// Communicating with the ES subsystem failed.
     case internalError
 	/// The attempt to create a new client contained one or more invalid arguments.
